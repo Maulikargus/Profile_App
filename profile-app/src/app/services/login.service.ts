@@ -19,9 +19,6 @@ export class LoginService {
     return this.http.post('http://192.1.125.44:3000/setdata',data);
   }
 
-
-
-
   login(name,password)
   {
       console.log("runnign");

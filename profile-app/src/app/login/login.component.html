@@ -1,23 +1,23 @@
 
 <div *ngIf="show" class="login-page">
   <div class="form">
-    <form #registerform (ngSubmit)="signUp(registername.value)" id="register-form" *ngIf="register">
-      <input type="email" #registername placeholder="name" required/>
-      <input type="password" name="pass" [(ngModel)]='registerpassword' placeholder="password" required/>
-      <input type="password" name="repass" [(ngModel)]='registerrepassword' placeholder="Reenter password" required/>
-      <button type="submit" [style.background-color]="!same()?'lightgray':'green'" [disabled]="!same()" >create</button>
+    <form ngNativeValidate #registerform (ngSubmit)="signUp(registername.value,registerpassword.value,registerrepassword.value)" id="register-form" *ngIf="register">
+      <input type="email" #registername placeholder="email" required/>
+      <input type="password" name="pass" #registerpassword placeholder="password" required />
+      <input type="password" name="repass" #registerrepassword placeholder="Reenter password" required />
+      <button type="submit">create</button>
 
       <p class="message">Already registered?  <a (click)="toggle()" href="#">Sign In</a></p>
     </form>
 
-    <form class="login-form" (ngSubmit)=login(email.value,pass.value)  *ngIf="!register"  #loginform >
+    <form ngNativeValidate class="login-form" (ngSubmit)=login(email.value,pass.value)  *ngIf="!register"  #loginform >
     <input type="email" #email  placeholder="email" required />
       <input type="password" #pass placeholder="password" required />
-     <button  type="submit"  >LogIn</button>
+     <button  type="submit" [disabled]="loginform.valid"  >LogIn</button>
       <p class="message">Not registered? <a (click)="toggle()" href="#">Create an account</a></p>
     
     </form>
     <p style="color:red"> {{error}}</p>
-    <p style="color:green"> {{notification}}</p>
+     <p style="color:green"> {{notification}}</p>
   </div>
 </div>

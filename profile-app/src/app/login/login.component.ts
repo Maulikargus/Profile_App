@@ -9,15 +9,11 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.css']
 })
 
-
-
-
-
 export class LoginComponent  {
   show=true;  
   register=false;
-  registerpassword="";
-  registerrepassword="";
+  registerpassword:string;
+  registerrepassword:string;
   error="";
   notification="";
   loginservice:LoginService=null;
@@ -38,11 +34,11 @@ export class LoginComponent  {
     this.register=!this.register;
   }
 
-  same()
+  same(registerpassword,registerrepassword)
   {
-    if(this.registerpassword=="")
+    if(registerpassword)
       return false;
-    else if(this.registerpassword==this.registerrepassword)
+    else if(registerpassword==registerrepassword)
       return true;
     else
       return false;
@@ -72,9 +68,9 @@ export class LoginComponent  {
     )
   }
 
-  signUp(email)
+  signUp(email,registerpassword,registerrepassword)
   {
-  if(!this.same())
+  if(!this.same(registerpassword,registerrepassword))
     {
         this.error="password did not match";
         setTimeout(()=>{    //<<<---    using ()=> syntax
@@ -82,7 +78,7 @@ export class LoginComponent  {
      },2000);
     }
     else{
-    this.loginservice.signUp(email,this.registerpassword).subscribe(
+    this.loginservice.signUp(email,registerpassword).subscribe(
       data =>{
         console.log(data);
         if(data.json().type=="error"){

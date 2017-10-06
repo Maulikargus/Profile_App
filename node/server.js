@@ -40,19 +40,36 @@ app.get('/get/:email', function (req, res) {
 
 app.post('/', function (req, res) {
 	console.log(req.body);
-  if(req.body.type=="register"){
-  		new db.user({
-  			email:req.body.email,
-  			password:req.body.password
-  		}).save(function(err){
-  			if(!err)
-  				res.send("succed");
-  			else
-  				res.send(err);
-  		}
-  	);
-  }
+ if(req.body.type=="register"){
+db.user.findOne({"email":req.body.email},function(err,loginuser){
+      if(!err){ 
+        if(loginuser){
+          res.send({
+            type:"error",
+            message:"Already registered"
+          });
+        }
+        else{
 
+          new db.user({
+              email:req.body.email,
+              password:req.body.password
+            }).save(function(err){
+                if(!err)
+                  res.send({
+                    type:"succed"
+                  });
+                else
+                  res.send({
+                    type:"error",
+                    message:"database error"
+                  });
+              });
+
+        }
+            }
+  });
+}
   else{
   	db.user.findOne({"email":req.body.email,"password":req.body.password},function(err,loginuser){
   		if(!err){ 

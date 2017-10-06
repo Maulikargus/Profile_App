@@ -19,6 +19,7 @@ export class LoginComponent  {
   registerpassword="";
   registerrepassword="";
   error="";
+  notification="";
   loginservice:LoginService=null;
   location: Location;
   site:string="/profile";
@@ -82,9 +83,25 @@ export class LoginComponent  {
     }
     else{
     this.loginservice.signUp(email,this.registerpassword).subscribe(
-      data => console.log(data)   
+      data =>{
+        console.log(data);
+        if(data.json().type=="error"){
+          this.error=data.json().message;
+            setTimeout(()=>{    
+              this.error = "";
+              },2000);
+        }
+        else{
+          this.register=false;
+          this.error=data.json().message;
+          this.notification="successfully registered";
+          setTimeout(()=>{    
+            this.notification = "";
+            },2000);
+        }
+      }    
     )
-    this.register=false;
+    
   }
   }
 

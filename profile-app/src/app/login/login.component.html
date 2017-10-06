@@ -13,7 +13,7 @@
     <form ngNativeValidate class="login-form" (ngSubmit)=login(email.value,pass.value)  *ngIf="!register"  #loginform >
     <input type="email" #email  placeholder="email" required />
       <input type="password" #pass placeholder="password" required />
-     <button  type="submit" [disabled]="loginform.valid"  >LogIn</button>
+     <button  type="submit"  >LogIn</button>
       <p class="message">Not registered? <a (click)="toggle()" href="#">Create an account</a></p>
     
     </form>

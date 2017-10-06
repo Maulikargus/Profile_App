@@ -36,7 +36,7 @@ export class LoginComponent  {
 
   same(registerpassword,registerrepassword)
   {
-    if(registerpassword)
+    if(registerpassword=="")
       return false;
     else if(registerpassword==registerrepassword)
       return true;
@@ -70,6 +70,7 @@ export class LoginComponent  {
 
   signUp(email,registerpassword,registerrepassword)
   {
+    console.log(registerpassword,registerrepassword);
   if(!this.same(registerpassword,registerrepassword))
     {
         this.error="password did not match";

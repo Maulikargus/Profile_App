@@ -11,9 +11,14 @@ export class LoginService {
   ) {}
  
   // Calling the Hackernews API using GET method.
-  getprofiles(email:string) {
+  getprofile(email:string) {
     return this.http.get('http://192.1.125.44:3000/get/'+email)
   }
+
+  getAllProfiles(){
+    return this.http.get('http://192.1.125.44:3000/getall/');
+  }
+
 
   setprofiles(data){
     return this.http.post('http://192.1.125.44:3000/setdata',data);

@@ -1,129 +1,143 @@
 var express = require('express')
 var app = express()
 var bodyParser = require('body-parser')
-var db=require('./data')
+var db = require('./data')
 
-app.use( bodyParser.json() );       // to support JSON-encoded bodies
-app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
-  extended: true
-})); 
+app.use(bodyParser.json({limit:"50mb"}));
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+app.use( bodyParser.raw({limit: '50mb'}) );   
 
 app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
 });
 
 
 
-app.get('/get/:email', function (req, res) {
-  console.log(req.params);
+app.get('/get/:email', function(req, res) {
+    console.log(req.params);
 
-    	db.data.findOne({"email":req.params.email},function(err,loginuser){
-  		if(!err){
-  			if(loginuser){
-  				loginuser.type="succed";
-  				res.send(loginuser);
-  			}
-  			else{
-  				res.send({
-  					type:"error",
-  					message:"data is not set"
-  				});
-  			}
-  			 		}
-  		else
-  			res.send(err);
-  	});
-
-})
-
-app.post('/', function (req, res) {
-	console.log(req.body);
- if(req.body.type=="register"){
-db.user.findOne({"email":req.body.email},function(err,loginuser){
-      if(!err){ 
-        if(loginuser){
-          res.send({
-            type:"error",
-            message:"Already registered"
-          });
-        }
-        else{
-
-          new db.user({
-              email:req.body.email,
-              password:req.body.password
-            }).save(function(err){
-                if(!err)
-                  res.send({
-                    type:"succed"
-                  });
-                else
-                  res.send({
-                    type:"error",
-                    message:"database error"
-                  });
-              });
-
-        }
+    db.data.findOne({ "email": req.params.email }, function(err, loginuser) {
+        if (!err) {
+            if (loginuser) {
+                loginuser.type = "succed";
+                res.send(loginuser);
+            } else {
+                res.send({
+                    type: "error",
+                    message: "data is not set"
+                });
             }
-  });
-}
-  else{
-  	db.user.findOne({"email":req.body.email,"password":req.body.password},function(err,loginuser){
-  		if(!err){ 
-  			if(loginuser){
-  				res.send({
-  					type:"succed"
-  				});
-  			}
-  			else{
-  				res.send({
-  					type:"error",
-  					message:"register first"
-  				});
-  			}
-  			 		}
-  		else
-  			res.send(err);
-  	});
-  }
+        } else
+            res.send(err);
+    });
+
+})
+
+app.get('/getall', function(req, res) {
+
+    db.data.find(function(err, result) {
+        if (!err) {
+            res.send(result);
+        } else
+            res.send({
+                type: "error",
+                message: "database error"
+            })
+    })
+})
+
+
+app.post('/', function(req, res) {
+    console.log(req.body);
+    if (req.body.type == "register") {
+        db.user.findOne({ "email": req.body.email }, function(err, loginuser) {
+            if (!err) {
+                if (loginuser) {
+                    res.send({
+                        type: "error",
+                        message: "Already registered"
+                    });
+                } else {
+
+                    new db.user({
+                        email: req.body.email,
+                        password: req.body.password
+                    }).save(function(err) {
+                        if (!err)
+                            res.send({
+                                type: "succed"
+                            });
+                        else
+                            res.send({
+                                type: "error",
+                                message: "database error"
+                            });
+                    });
+
+                }
+            }
+        });
+    } else {
+        db.user.findOne({ "email": req.body.email, "password": req.body.password }, function(err, loginuser) {
+            if (!err) {
+                if (loginuser) {
+                    res.send({
+                        type: "succed"
+                    });
+                } else {
+                    res.send({
+                        type: "error",
+                        message: "register first"
+                    });
+                }
+            } else
+                res.send(err);
+        });
+    }
 })
 
 
 
-app.post('/setdata', function (req, res) {
-	db.data.findOneAndUpdate({email:req.body.email},{$set:{ 
-	name:req.body.name,
-	phone:req.body.phone,
-	city:req.body.city,
-	website:req.body.website,
-	image:req.body.image
-}  },function(err,profile){
-
-    	console.log(profile);
-    	if(!profile){
-    		
-			new db.data({
-				email:req.body.email,
-				name:req.body.name,
-				phone:req.body.phone,
-				city:req.body.city,
-				website:req.body.website
-			}).save(function(err){
-  				if(!err)
-  					res.send("succed");
-  				else
-  					res.send(err);
-  		});
-
-    	}
+app.post('/setdata', function(req, res) {
+    var tempjson = {
+        name: req.body.name,
+        phone: req.body.phone,
+        location: {
+            city: req.body.location.city,
+            state: req.body.location.state,
+            country: req.body.location.country
+        },
+        website: req.body.website,
+        image: req.body.image
+    }
 
 
+    console.log("printing temp file " + JSON.stringify(tempjson));
+
+    db.data.findOneAndUpdate({ email: req.body.email }, {
+        $set: tempjson
+    }, function(err, profile) {
+
+        console.log("printing profile" + profile);
+        console.log('coming');
+        if (!profile) {
+            tempjson.email = req.body.email;
 
 
-});
+            new db.data(tempjson).save(function(err, prof) {
+                if (!err)
+                    res.send(prof);
+                else
+                    res.send(err);
+            });
+
+        } else
+            res.send("updated");
+    });
 
 });
 

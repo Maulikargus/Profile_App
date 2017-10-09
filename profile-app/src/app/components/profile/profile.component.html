@@ -1,0 +1,61 @@
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
+<div class="container" style="padding-top:100px" >
+  <div class="jumbotron">
+    <div class="row">
+      <div class="col-md-4 col-xs-12 col-sm-6 col-lg-4">
+        <img [hidden]="mode" width=200 height=200 [src]="images" alt="stack photo" class="img">
+        <input [style.display]="mode?'block':'none'" type="file" (change)="handleFileSelect($event)" />
+      </div>
+      <div class="col-md-8 col-xs-12 col-sm-6 col-lg-8">
+        <div class="container" style="border-bottom:1px solid black">
+          <h2 *ngIf="!mode">{{name}}</h2>
+          <input *ngIf="mode" [(ngModel)]="name" />
+          <li style="float:right">
+            <p><span class="glyphicon glyphicon-envelope one" style="width:50px;"></span>
+              <span>{{email}}</span>
+            </p>
+          </li>
+        </div>
+        <hr>
+        <ul class="container details">
+          <li>
+            <p><span class="glyphicon glyphicon-earphone one" style="width:50px;"></span>
+              <span *ngIf="!mode"> {{phone}}</span>
+              <input *ngIf="mode" [(ngModel)]="phone" />
+            </p>
+          </li>
+          <li>
+            <p><span class="glyphicon glyphicon-map-marker one" style="width:50px;"></span>
+              <span *ngIf="!mode&&location.city"> {{location.city}}</span>
+              <span *ngIf="!mode&&location.state">, {{location.state}}</span>
+              <span *ngIf="!mode&&location.country">, {{location.country}}</span>
+              <span *ngIf="mode">
+                            <span>Country:</span><select [(ngModel)]="country" (change)="setState()" >
+                                    <option *ngIf="location.country" selected disabled>{{location.country}}</option>
+                                    <option *ngFor="let c of countries" [ngValue]='c' >{{c.name}}</option>
+                                  </select><br/>
+                            <span style="padding-left:3em" >State:</span><select [(ngModel)]="state" (change)="setCity()" >
+                                    <option *ngIf="location.state"  selected disabled>{{location.state}}</option>
+                                    <option *ngFor="let s of states" [ngValue]='s' >
+                                      {{s.name}}
+                                      <option>
+                                  </select><br/> 
+                            <span style="padding-left:3em">City:</span><select [(ngModel)]="city" (change)="setsCity()" >
+                                    <option *ngIf="location.city" selected disabled>{{location.city}}</option>
+                                    <option *ngFor="let c of cities" [ngValue]='c' >
+                                        {{c.name}}
+                                    <option>
+                                    </select>
+                       </span>
+            </p>
+          </li>
+          <li>
+            <p><span class="glyphicon glyphicon-new-window one" style="width:50px;"></span>
+              <span *ngIf="!mode"> <a href="#">{{website}}</a></span>
+              <input *ngIf="mode" [(ngModel)]="website" />
+            </p>
+            <button style="align:center" (click)="toggle()">edit</button>
+        </ul>
+      </div>
+    </div>
+  </div>

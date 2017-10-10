@@ -40,7 +40,7 @@ export class AllprofileComponent {
     else if(this.search){//when nothing has typed
     this.filteredItems = this.data.filter(
       result=> {
-        return result.name.toLowerCase().includes(this.search.toLowerCase());
+        return (result.name.toLowerCase().includes(this.search.toLowerCase())||result.profession.toLowerCase().includes(this.search.toLowerCase()));
       }
       );
   }

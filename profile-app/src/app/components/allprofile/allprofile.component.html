@@ -1,6 +1,5 @@
 <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
-<input type="text" [(ngModel)]="search" class="form-control" placeholder="Search for profile" (input)=filterItem() />
-<div style="padding-top:50px" ></div>
+<input style="margin:80px" type="text" [(ngModel)]="search" class="form-control" placeholder="Search for profile" (input)=filterItem() />
 <div class="container"  *ngFor="let profile of filteredItems">
   <div class="jumbotron">
     <div class="row">

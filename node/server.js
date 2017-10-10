@@ -18,7 +18,6 @@ app.use(function(req, res, next) {
 
 
 app.get('/get/:email', function(req, res) {
-    console.log(req.params);
 
     db.data.findOne({ "email": req.params.email }, function(err, loginuser) {
         if (!err) {
@@ -52,7 +51,6 @@ app.get('/getall', function(req, res) {
 
 
 app.post('/', function(req, res) {
-    console.log(req.body);
     if (req.body.type == "register") {
         db.user.findOne({ "email": req.body.email }, function(err, loginuser) {
             if (!err) {
@@ -119,14 +117,11 @@ app.post('/setdata', function(req, res) {
     if(req.body.image)
         tempjson.image=req.body.image;
 
-    console.log("printing temp file " + JSON.stringify(tempjson));
 
     db.data.findOneAndUpdate({ email: req.body.email }, {
         $set: tempjson
     }, function(err, profile) {
 
-        console.log("printing profile" + profile);
-        console.log('coming');
         if (!profile) {
             tempjson.email = req.body.email;
 

@@ -15,6 +15,7 @@ export class AllprofileComponent {
   search:String;
   
   constructor(service:LoginService,router: Router,sanitizer:DomSanitizer) {
+   console.log("coming to allprofile");
     this.sanitizer=sanitizer;  
     if(!service.email)
       router.navigateByUrl('/');

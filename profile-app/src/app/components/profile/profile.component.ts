@@ -11,7 +11,7 @@ import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browse
 export class ProfileComponent {
   cities: any[];
   states: any[];
-  loggedIn:boolean;
+  loggedIn:boolean=false;
   http: Http;
   sanitizer:DomSanitizer;
   service: LoginService;
@@ -31,9 +31,13 @@ export class ProfileComponent {
   country;
   state;
   city;
+  profession;
+  field;
+  fields;
+  professions;
 
   constructor(service: LoginService, router: Router, http: Http,sanitizer:DomSanitizer) {
-
+    console.log("coming to profile");
     this.http = http;
     this.service = service;
     this.sanitizer=sanitizer;
@@ -55,6 +59,8 @@ export class ProfileComponent {
           this.city = data.json().location.city;
           this.state = data.json().location.state;
           this.country = data.json().location.country;
+          this.field=data.json().field;
+          this.profession=data.json().profession;
           this.website = data.json().website;
           this.phone = data.json().phone;
           this.images = this.sanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64,' + data.json().image);
@@ -63,6 +69,7 @@ export class ProfileComponent {
     )
 
     this.setCountries();
+    this.setFields();
   }
 
   toggle() {
@@ -83,6 +90,26 @@ export class ProfileComponent {
   }
 
 
+  setFields(){
+    var tempthis = this;
+    this.http.get('../assets/fields.json').subscribe(
+      data => {
+        tempthis.fields = data.json();
+      }
+    )
+  }
+
+  setProfessions(){
+    var tempthis=this;
+    this.http.get('../assets/professions.json').subscribe(
+      data => {
+        console.log("edit thay che"+tempthis.field+data.json()[tempthis.field]);
+        tempthis.professions = data.json()[tempthis.field];
+      }
+    )
+  }
+
+
   setsCity() {
     this.location.city = this.city.name;
   }
@@ -94,6 +121,8 @@ export class ProfileComponent {
       "phone": this.phone,
       "location": this.location,
       "image": this.base64textString,
+      "field":this.field,
+      "profession":this.profession,
       "website": this.website
     }).subscribe(
       data => {

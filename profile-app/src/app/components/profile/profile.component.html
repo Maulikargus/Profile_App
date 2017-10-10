@@ -54,6 +54,24 @@
               <span *ngIf="!mode"> <a href="#">{{website}}</a></span>
               <input *ngIf="mode" [(ngModel)]="website" />
             </p>
+          </li>
+          <li>
+              <p><span class="glyphicon glyphicon-briefcase" style="width:50px;"></span>
+                <span *ngIf="!mode&&profession">{{profession}}</span>
+                <span *ngIf="mode">
+                              <span>Field:</span><select [(ngModel)]="field" (change)="setProfessions()" >
+                                      <option *ngIf="field" selected disabled>{{field}}</option>
+                                      <option *ngFor="let f of fields" [ngValue]='f' >{{f}}</option>
+                                    </select><br/>
+                              <span style="padding-left:3em" >Profession:</span><select [(ngModel)]="profession" >
+                                      <option *ngIf="profession"  selected disabled>{{profession}}</option>
+                                      <option *ngFor="let p of professions" [ngValue]='p' >
+                                        {{p}}
+                                        <option>
+                                    </select><br/> 
+                         </span>
+              </p>
+              </li>
             <button style="align:center" (click)="toggle()">edit</button>
         </ul>
       </div>

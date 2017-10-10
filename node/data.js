@@ -16,6 +16,8 @@ var data = new Schema({
         state: String,
         country: String
     },
+    field:String,
+    profession:String,
     website: String,
     image: String
 })

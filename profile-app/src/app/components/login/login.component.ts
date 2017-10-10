@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 })
 
 export class LoginComponent {
-  userLogged:boolean=false;
+  loggedIn:boolean=false;
   
   show = true;
   register = false;
@@ -54,7 +54,7 @@ export class LoginComponent {
         else {
           this.loginservice.email = email;
           console.log("emitting");
-          this.userLogged=true;
+          this.loggedIn=true;
           this.router.navigateByUrl('/allprofile');
         }
       }

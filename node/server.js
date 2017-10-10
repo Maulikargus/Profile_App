@@ -111,10 +111,13 @@ app.post('/setdata', function(req, res) {
             state: req.body.location.state,
             country: req.body.location.country
         },
-        website: req.body.website,
-        image: req.body.image
+        field:req.body.field,
+        profession:req.body.profession,
+        website: req.body.website
     }
 
+    if(req.body.image)
+        tempjson.image=req.body.image;
 
     console.log("printing temp file " + JSON.stringify(tempjson));
 

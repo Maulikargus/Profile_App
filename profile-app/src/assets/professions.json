@@ -1,0 +1,17 @@
+{
+    "Sports":[
+        "Cricketer",
+        "Footballer"
+    ]
+    ,
+    "Music":[
+        "Singer",
+        "Guitarist"
+    ],
+    "Engineer":[
+        "Software Engineer",
+        "Tester"
+    ]
+
+    
+}

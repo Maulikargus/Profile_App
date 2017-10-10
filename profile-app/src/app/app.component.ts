@@ -7,19 +7,18 @@ import {Router} from '@angular/router';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  email='';
+  email=false;
   router;
   home;
   profile
+  loggedIn:boolean=false;
   constructor(service:LoginService,router:Router){
-    this.email=service.email;
     this.router=router;
   }
 
   componentAdded(email){
     console.log(email);
-   if(email.loggedIn)
-    this.email='true';
+    this.email=email.loggedIn;
   }
 
   logout(){

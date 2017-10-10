@@ -1,15 +1,48 @@
 <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
-<input style="margin:80px" type="text" [(ngModel)]="search" class="form-control" placeholder="Search for profile" (input)=filterItem() />
-<div class="container"  *ngFor="let profile of filteredItems">
+<input style="margin-top:80px" type="text" [(ngModel)]="search" class="form-control" placeholder="Search for profile" (input)=filterItem()
+/>
+<div style="margin-left:80px;margin-top:0%">
+  Country:<select [(ngModel)]="country" (change)="setState();filterItem()">
+        <option *ngFor="let c of filteredCountry" [ngValue]='c' >
+          {{c}}
+          <option>
+      </select> 
+      State:
+  <select [(ngModel)]="state" (change)="setCity();filterItem();">
+          <option *ngFor="let s of filteredState" [ngValue]='s' >
+            {{s}}
+            <option>
+        </select> 
+        City:
+  <select [(ngModel)]="city" (change)="filterItem()">
+            <option *ngFor="let c of filteredCity" [ngValue]='c' >
+              {{c}}
+              <option>
+          </select>
+          <span style="margin-left:25%" > Field:</span>
+  <select   [(ngModel)]="field" (change)="setProfession();filterItem()">
+              <option *ngFor="let f of filteredField" [ngValue]='f' >
+                {{f}}
+                <option>
+            </select>
+             Profession:
+  <select [(ngModel)]="profession" (change)="filterItem()">
+                <option *ngFor="let p of filteredProfession" [ngValue]='p' >
+                  {{p}}
+                  <option>
+              </select>
+</div>
+
+<div style="margin:80px" class="container" *ngFor="let profile of filteredItems">
   <div class="jumbotron">
     <div class="row">
       <div class="col-md-4 col-xs-12 col-sm-6 col-lg-4">
-        <img  width=200 height=200 src="data:image/jpeg;base64,{{profile.image}}" alt="image can't be loaded" class="img">
+        <img width=200 height=200 src="data:image/jpeg;base64,{{profile.image}}" alt="image can't be loaded" class="img">
       </div>
       <div class="col-md-8 col-xs-12 col-sm-6 col-lg-8">
         <div class="container" style="border-bottom:1px solid black">
-          <h2 style="float:left"  >{{profile.name}}</h2>
-          <li style="float:right;padding-top:25px" >
+          <h2 style="float:left">{{profile.name}}</h2>
+          <li style="float:right;padding-top:25px">
             <p><span class="glyphicon glyphicon-envelope one" style="width:50px;"></span>
               <span>{{profile.email}}</span>
             </p>
@@ -24,16 +57,16 @@
           </li>
           <li>
             <p><span class="glyphicon glyphicon-map-marker one" style="width:50px;"></span>
-              <span *ngIf="profile.location.city" >{{profile.location.city}}</span>
-              <span *ngIf="profile.location.state" >, {{profile.location.state}}</span>
-              <span *ngIf="profile.location.country" >, {{profile.location.country}}</span>
+              <span *ngIf="profile.location.city">{{profile.location.city}}</span>
+              <span *ngIf="profile.location.state">, {{profile.location.state}}</span>
+              <span *ngIf="profile.location.country">, {{profile.location.country}}</span>
             </p>
           </li>
           <li>
-              <p><span class="glyphicon glyphicon-briefcase" style="width:50px;"></span>
-                <span> {{profile.profession}}</span>
-              </p>
-            </li>
+            <p><span class="glyphicon glyphicon-briefcase" style="width:50px;"></span>
+              <span> {{profile.profession}}</span>
+            </p>
+          </li>
           <li>
             <p><span class="glyphicon glyphicon-new-window one" style="width:50px;"></span>
               <span> <a href="#">{{profile.website}}</a></span>

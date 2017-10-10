@@ -37,7 +37,6 @@ export class ProfileComponent {
   professions;
 
   constructor(service: LoginService, router: Router, http: Http,sanitizer:DomSanitizer) {
-    console.log("coming to profile");
     this.http = http;
     this.service = service;
     this.sanitizer=sanitizer;
@@ -103,7 +102,6 @@ export class ProfileComponent {
     var tempthis=this;
     this.http.get('../assets/professions.json').subscribe(
       data => {
-        console.log("edit thay che"+tempthis.field+data.json()[tempthis.field]);
         tempthis.professions = data.json()[tempthis.field];
       }
     )

@@ -53,7 +53,6 @@ export class LoginComponent {
         }
         else {
           this.loginservice.email = email;
-          console.log("emitting");
           this.loggedIn=true;
           this.router.navigateByUrl('/allprofile');
         }

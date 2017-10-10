@@ -25,7 +25,6 @@ export class AllprofileComponent {
   filteredProfession:String[]=[];
 
   constructor(service: LoginService, router: Router, sanitizer: DomSanitizer) {
-    console.log("coming to allprofile");
     this.sanitizer = sanitizer;
     if (!service.email)
       router.navigateByUrl('/');
@@ -55,9 +54,6 @@ export class AllprofileComponent {
   }
 
   setSearchdata() {
-    console.log(this.filteredItems);
-
-    // this.filteredState=[];
     for (var i = 0; i < this.filteredItems.length; i++) {
       try{
         if(this.filteredCountry.indexOf(this.filteredItems[i].location.country)==-1)
@@ -81,7 +77,6 @@ export class AllprofileComponent {
   }
 
   filterItem() {
-    console.log("aavuy");
       this.filteredItems = this.data.filter(
         result => {      
           return (
@@ -95,7 +90,6 @@ export class AllprofileComponent {
           );
         }
       );
-      console.log(JSON.stringify(this.filteredItems));
       this.setSearchdata();
   }
 
